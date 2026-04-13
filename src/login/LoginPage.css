@@ -1,0 +1,151 @@
+/* Hintergrund der Seite */
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center; /* vertikal */
+  background: #f7f7f9;
+}
+
+/* Karte */
+.login-card {
+  background: #ffffff;
+  padding: 24px 24px 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  width: 320px;
+}
+
+/* Titel "FinanzApp" */
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+/* Formular */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #333;
+}
+
+/* Inputs */
+.login-input {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: #f6b551;
+  box-shadow: 0 0 0 2px rgba(246, 181, 81, 0.25);
+}
+
+/* Password-Zeile mit Icon */
+.password-row {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-row .login-input {
+  width: 100%;
+  padding-right: 34px;
+}
+
+.password-eye {
+  position: absolute;
+  right: 10px;
+  font-size: 14px;
+  cursor: default;
+  color: #aaa;
+}
+
+/* Link-Zeile (Forgot password) */
+.login-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Text-Link als Button */
+.link-button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Hauptbutton (gelb) */
+.login-primary {
+  margin-top: 6px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffc446;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.login-primary:hover {
+  background: #f4b63c;
+}
+
+/* Footer mit Sign up */
+.login-footer {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+}
+
+.login-secondary {
+  width: 100%;
+  border-radius: 10px;
+  padding: 8px 0;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.login-footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.login-footer a {
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}

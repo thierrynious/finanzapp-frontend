@@ -1,0 +1,95 @@
+/* ================= NAVBAR ================= */
+
+.navbar {
+  width: 100%;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Links */
+.navbar-left {
+  display: flex;
+  gap: 30px;
+}
+
+/* Rechts */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Links */
+.navbar-item {
+  font-size: 17px;
+  text-decoration: none;
+  color: #1e293b;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: 0.25s;
+}
+
+.navbar-item:hover {
+  color: #0f172a;
+  border-bottom-color: #cbd5e1;
+}
+
+.navbar-item.active {
+  color: #0f172a;
+  border-bottom: 2px solid #000;
+  font-weight: 600;
+}
+
+/* Titel */
+.navbar-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+/* Logout */
+.navbar-logout {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #2c3242;
+}
+
+.navbar-logout:hover {
+  color: #ffbf36;
+}
+
+.navbar-user-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 8px;
+}
+
+.navbar-user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+}
+
+.navbar-user-email {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Optional schöner Abstand */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
