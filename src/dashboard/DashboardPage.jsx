@@ -15,6 +15,13 @@ export default function DashboardPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+
     loadDashboard();
   }, []);
 
@@ -24,10 +31,17 @@ export default function DashboardPage() {
 
     try {
       const res = await api.get("/transactions/dashboard");
-      setDashboard(res.data);
+      setDashboard({
+        balance: res.data?.balance ?? 0,
+        totalIncome: res.data?.totalIncome ?? 0,
+        totalExpenses: res.data?.totalExpenses ?? 0,
+        latestTransactions: res.data?.latestTransactions ?? [],
+      });
     } catch (err) {
       console.error("Fehler beim Laden des Dashboards:", err);
-      setError("Dashboard konnte nicht geladen werden.");
+      setError(
+        err.response?.data?.message || "Dashboard konnte nicht geladen werden.",
+      );
     } finally {
       setLoading(false);
     }
@@ -69,7 +83,7 @@ export default function DashboardPage() {
               <h2>Letzte Transaktionen</h2>
             </div>
 
-            {dashboard.latestTransactions?.length === 0 ? (
+            {dashboard.latestTransactions.length === 0 ? (
               <p>Keine Transaktionen vorhanden.</p>
             ) : (
               <table className="recent-transactions-table">

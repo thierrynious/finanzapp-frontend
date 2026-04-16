@@ -14,32 +14,54 @@ function App() {
       {isLoggedIn && <Navbar />}
 
       <Routes>
-        {/* PUBLIC */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/login"
+          element={
+            !isLoggedIn ? <LoginPage /> : <Navigate to="/dashboard" replace />
+          }
+        />
 
-        {/* PROTECTED */}
+        <Route
+          path="/register"
+          element={
+            !isLoggedIn ? (
+              <RegisterPage />
+            ) : (
+              <Navigate to="/dashboard" replace />
+            )
+          }
+        />
+
         <Route
           path="/dashboard"
-          element={isLoggedIn ? <DashboardPage /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? <DashboardPage /> : <Navigate to="/login" replace />
+          }
         />
 
         <Route
           path="/transactions"
-          element={isLoggedIn ? <TransactionsPage /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? <TransactionsPage /> : <Navigate to="/login" replace />
+          }
         />
 
         <Route
           path="/upload"
           element={
-            isLoggedIn ? <BankStatementUpload /> : <Navigate to="/login" />
+            isLoggedIn ? (
+              <BankStatementUpload />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 
-        {/* FALLBACK */}
         <Route
           path="*"
-          element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />}
+          element={
+            <Navigate to={isLoggedIn ? "/dashboard" : "/login"} replace />
+          }
         />
       </Routes>
     </>

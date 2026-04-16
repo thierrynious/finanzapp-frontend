@@ -15,6 +15,8 @@ export default function EditTransactionModal({
     note: "",
   });
 
+  const [saving, setSaving] = useState(false);
+
   useEffect(() => {
     if (transaction) {
       setForm({
@@ -28,13 +30,31 @@ export default function EditTransactionModal({
   }, [transaction]);
 
   async function handleSave() {
-    await api.put(`/transactions/${transaction.id}`, {
-      ...form,
-      amount: Math.abs(Number(form.amount)),
-    });
+    if (!form.title.trim() || !form.date || !form.amount) {
+      alert("Bitte Titel, Datum und Betrag ausfüllen.");
+      return;
+    }
 
-    onSaved();
-    onClose();
+    try {
+      setSaving(true);
+
+      await api.put(`/transactions/${transaction.id}`, {
+        ...form,
+        title: form.title.trim(),
+        amount: Math.abs(Number(form.amount)),
+      });
+
+      await onSaved();
+      onClose();
+    } catch (err) {
+      console.error("Fehler beim Aktualisieren:", err);
+      alert(
+        err.response?.data?.message ||
+          "❌ Fehler beim Aktualisieren der Transaktion",
+      );
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (!transaction) return null;
@@ -47,18 +67,22 @@ export default function EditTransactionModal({
         <input
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
+          disabled={saving}
         />
 
         <input
           type="date"
           value={form.date}
           onChange={(e) => setForm({ ...form, date: e.target.value })}
+          disabled={saving}
         />
 
         <input
           type="number"
+          step="0.01"
           value={form.amount}
           onChange={(e) => setForm({ ...form, amount: e.target.value })}
+          disabled={saving}
         />
 
         <select
@@ -66,6 +90,7 @@ export default function EditTransactionModal({
           onChange={(e) =>
             setForm({ ...form, income: e.target.value === "true" })
           }
+          disabled={saving}
         >
           <option value="true">Einnahme</option>
           <option value="false">Ausgabe</option>
@@ -75,11 +100,16 @@ export default function EditTransactionModal({
           value={form.note}
           onChange={(e) => setForm({ ...form, note: e.target.value })}
           placeholder="Notiz"
+          disabled={saving}
         />
 
         <div className="modal-actions">
-          <button onClick={onClose}>Abbrechen</button>
-          <button onClick={handleSave}>Speichern</button>
+          <button onClick={onClose} disabled={saving}>
+            Abbrechen
+          </button>
+          <button onClick={handleSave} disabled={saving}>
+            {saving ? "Speichert..." : "Speichern"}
+          </button>
         </div>
       </div>
     </div>

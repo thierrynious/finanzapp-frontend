@@ -25,8 +25,8 @@ export default function RegisterPage() {
       return;
     }
 
-    if (form.password.length < 6) {
-      setError("Das Passwort muss mindestens 6 Zeichen lang sein.");
+    if (form.password.length < 8) {
+      setError("Das Passwort muss mindestens 8 Zeichen lang sein.");
       return;
     }
 
@@ -38,20 +38,13 @@ export default function RegisterPage() {
     try {
       setLoading(true);
 
-      const response = await api.post("/auth/register", {
+      await api.post("/users", {
         email: form.email.trim().toLowerCase(),
         username: form.username.trim(),
         password: form.password,
       });
 
-      if (response.data?.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", response.data.username);
-        localStorage.setItem("email", response.data.email);
-        navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
+      navigate("/login");
     } catch (err) {
       console.error("Register error:", err);
       setError(err.response?.data?.message || "Registrierung fehlgeschlagen.");

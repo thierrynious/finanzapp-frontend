@@ -7,25 +7,34 @@ const api = axios.create({
   },
 });
 
-// 🔐 JWT automatisch mitsenden
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) {
+
+  const isPublicRequest =
+    config.url?.includes("/auth/login") || config.url?.includes("/users");
+
+  if (token && !isPublicRequest) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
-// 🔁 Auto-Logout bei 401 / 403
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401 || err.response?.status === 403) {
+    if (
+      (err.response?.status === 401 || err.response?.status === 403) &&
+      !window.location.pathname.includes("/login") &&
+      !window.location.pathname.includes("/register")
+    ) {
       localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
       window.location.href = "/login";
     }
     return Promise.reject(err);
-  }
+  },
 );
 
 export default api;

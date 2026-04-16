@@ -7,14 +7,22 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e) {
     e.preventDefault();
     setError("");
 
+    if (!email.trim() || !password.trim()) {
+      setError("Bitte E-Mail und Passwort eingeben.");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const response = await api.post("/auth/login", {
-        email,
+        email: email.trim().toLowerCase(),
         password,
       });
 
@@ -28,6 +36,8 @@ export default function LoginPage() {
       setError(
         err.response?.data?.message || "Login failed. Check your credentials.",
       );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -62,8 +72,8 @@ export default function LoginPage() {
 
             {error && <p className="error-text">{error}</p>}
 
-            <button type="submit" className="login-primary">
-              Login
+            <button type="submit" className="login-primary" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
