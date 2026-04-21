@@ -49,7 +49,6 @@ export default function TransactionsPage() {
       if (income !== "") {
         params.income = income;
       }
-
       const res = await api.get("/transactions", { params });
 
       setTransactions(res.data?.content ?? []);

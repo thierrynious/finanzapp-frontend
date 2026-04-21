@@ -39,25 +39,21 @@ export default function BankStatementUpload() {
     formData.append("file", file);
 
     try {
-      const res = await api.post("/upload/bankstatement", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await api.post("/upload/bankstatement", formData);
 
-      // ✅ POPUP MIT BACKEND-ERGEBNIS
-      alert(
-        `Import abgeschlossen:
+      alert(`Import abgeschlossen:
 Gesamt: ${res.data.totalParsed}
 Importiert: ${res.data.imported}
-Duplikate: ${res.data.duplicates}`
-      );
+Duplikate: ${res.data.duplicates}`);
 
       setStatus("✅ Upload erfolgreich!");
       setFile(null);
     } catch (err) {
       console.error("❌ Upload Fehler:", err);
-      setStatus("❌ Fehler beim Upload");
+      console.error("Status:", err.response?.status);
+      console.error("Response:", err.response?.data);
+
+      setStatus(err.response?.data?.message || "❌ Fehler beim Upload");
     }
   }
 
