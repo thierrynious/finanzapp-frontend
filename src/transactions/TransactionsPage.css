@@ -130,9 +130,17 @@ body {
   background: #f9fafb;
 }
 
-/* AMOUNT COLUMN */
+/* CATEGORY COLUMN */
 .transactions-table th:nth-child(3),
 .transactions-table td:nth-child(3) {
+  width: 180px;
+  min-width: 180px;
+  white-space: nowrap;
+}
+
+/* AMOUNT COLUMN */
+.transactions-table th:nth-child(4),
+.transactions-table td:nth-child(4) {
   width: 160px;
   min-width: 160px;
   text-align: right;
@@ -141,17 +149,38 @@ body {
 }
 
 /* TYPE COLUMN */
-.transactions-table th:nth-child(4),
-.transactions-table td:nth-child(4) {
+.transactions-table th:nth-child(5),
+.transactions-table td:nth-child(5) {
   width: 120px;
   white-space: nowrap;
 }
 
 /* ACTION COLUMN */
-.transactions-table th:nth-child(5),
-.transactions-table td:nth-child(5) {
+.transactions-table th:nth-child(6),
+.transactions-table td:nth-child(6) {
   width: 120px;
   white-space: nowrap;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.category-income {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.category-expense {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 .income {

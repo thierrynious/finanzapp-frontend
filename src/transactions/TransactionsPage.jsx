@@ -49,6 +49,7 @@ export default function TransactionsPage() {
       if (income !== "") {
         params.income = income;
       }
+
       const res = await api.get("/transactions", { params });
 
       setTransactions(res.data?.content ?? []);
@@ -177,20 +178,35 @@ export default function TransactionsPage() {
               <tr>
                 <th>Datum</th>
                 <th>Titel</th>
+                <th>Kategorie</th>
                 <th>Betrag</th>
                 <th>Typ</th>
                 <th>Aktionen</th>
               </tr>
             </thead>
+
             <tbody>
               {transactions.map((tx) => (
                 <tr key={tx.id}>
                   <td>{tx.date}</td>
                   <td>{tx.title}</td>
+
+                  <td>
+                    <span
+                      className={`category-badge ${
+                        tx.income ? "category-income" : "category-expense"
+                      }`}
+                    >
+                      {tx.category || "Sonstiges"}
+                    </span>
+                  </td>
+
                   <td className={tx.income ? "income" : "expense"}>
                     {formatAmount(tx.amount)}
                   </td>
+
                   <td>{tx.income ? "Einnahme" : "Ausgabe"}</td>
+
                   <td>
                     <div className="action-buttons">
                       <button
