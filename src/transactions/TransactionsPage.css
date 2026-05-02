@@ -98,6 +98,14 @@ body {
   transform: translateY(-1px);
   box-shadow: 0 8px 16px rgba(17, 24, 39, 0.12);
 }
+.reset-filter-btn {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+.reset-filter-btn:hover {
+  background: #d1d5db !important;
+}
 
 /* TABLE */
 .transactions-table {

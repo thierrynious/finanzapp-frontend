@@ -73,6 +73,23 @@ body {
   color: #dc2626;
 }
 
+.chart-card {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #eef2f7;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+  min-height: 430px;
+}
+
+.chart-card h3 {
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #111827;
+}
+
 .dashboard-section {
   margin-top: 12px;
   padding: 24px;
@@ -151,5 +168,9 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+
+  .chart-card {
+    min-height: 380px;
   }
 }

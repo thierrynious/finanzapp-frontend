@@ -6,11 +6,14 @@ import EditTransactionModal from "./EditTransactionModal";
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState("");
   const [income, setIncome] = useState("");
+  const [categoryId, setCategoryId] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,8 +32,21 @@ export default function TransactionsPage() {
   const pageSize = 20;
 
   useEffect(() => {
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
     loadTransactions();
-  }, [page, search, income]);
+  }, [page, search, income, categoryId]);
+
+  async function loadCategories() {
+    try {
+      const res = await api.get("/categories");
+      setCategories(res.data ?? []);
+    } catch (err) {
+      console.error("Fehler beim Laden der Kategorien:", err);
+    }
+  }
 
   async function loadTransactions() {
     setLoading(true);
@@ -48,6 +64,10 @@ export default function TransactionsPage() {
 
       if (income !== "") {
         params.income = income;
+      }
+
+      if (categoryId !== "") {
+        params.categoryId = categoryId;
       }
 
       const res = await api.get("/transactions", { params });
@@ -126,6 +146,13 @@ export default function TransactionsPage() {
     setEditOpen(true);
   }
 
+  function resetFilters() {
+    setSearch("");
+    setIncome("");
+    setCategoryId("");
+    setPage(0);
+  }
+
   return (
     <div className="transactions-container">
       <div className="transactions-header">
@@ -156,12 +183,30 @@ export default function TransactionsPage() {
             setPage(0);
           }}
         >
-          <option value="">Alle</option>
+          <option value="">Alle Typen</option>
           <option value="true">Einnahmen</option>
           <option value="false">Ausgaben</option>
         </select>
 
+        <select
+          value={categoryId}
+          onChange={(e) => {
+            setCategoryId(e.target.value);
+            setPage(0);
+          }}
+        >
+          <option value="">Alle Kategorien</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+
         <button onClick={loadTransactions}>Filtern</button>
+        <button className="reset-filter-btn" onClick={resetFilters}>
+          Zurücksetzen
+        </button>
       </div>
 
       {loading && <p>Lade Transaktionen...</p>}
@@ -294,11 +339,15 @@ export default function TransactionsPage() {
       {editOpen && selectedTransaction && (
         <EditTransactionModal
           transaction={selectedTransaction}
+          categories={categories}
           onClose={() => {
             setEditOpen(false);
             setSelectedTransaction(null);
           }}
-          onSaved={loadTransactions}
+          onSaved={async () => {
+            await loadCategories();
+            await loadTransactions();
+          }}
         />
       )}
     </div>
