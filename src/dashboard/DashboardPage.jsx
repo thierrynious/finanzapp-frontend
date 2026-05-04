@@ -23,14 +23,19 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const COLORS = ["#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6", "#14b8a6"];
+  const COLORS = [
+    "#3b82f6",
+    "#f59e0b",
+    "#ef4444",
+    "#8b5cf6",
+    "#14b8a6",
+    "#06b6d4",
+    "#84cc16",
+  ];
 
-  const categoryData = Object.entries(dashboard.categoryStats || {}).map(
-    ([name, value]) => ({
-      name,
-      value,
-    }),
-  );
+  const categoryData = Object.entries(dashboard.categoryStats || {})
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -110,10 +115,10 @@ export default function DashboardPage() {
                     data={categoryData}
                     dataKey="value"
                     nameKey="name"
-                    outerRadius={110}
-                    label={({ name, value }) =>
-                      `${name}: ${formatAmount(value)}`
-                    }
+                    innerRadius={65}
+                    outerRadius={115}
+                    paddingAngle={2}
+                    label={false}
                   >
                     {categoryData.map((entry, index) => (
                       <Cell
