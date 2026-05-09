@@ -1,70 +1,50 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import CategoriesPage from "./categories/CategoriesPage";
 import LoginPage from "./login/LoginPage";
 import RegisterPage from "./login/RegisterPage";
 import DashboardPage from "./dashboard/DashboardPage";
 import TransactionsPage from "./transactions/TransactionsPage";
 import BankStatementUpload from "./bank/BankStatementUpload";
-import Navbar from "./components/Navbar";
+import AppLayout from "./layout/AppLayout";
 
 function App() {
   const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   return (
-    <>
-      {isLoggedIn && <Navbar />}
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          !isLoggedIn ? <LoginPage /> : <Navigate to="/dashboard" replace />
+        }
+      />
 
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            !isLoggedIn ? <LoginPage /> : <Navigate to="/dashboard" replace />
-          }
-        />
+      <Route
+        path="/register"
+        element={
+          !isLoggedIn ? <RegisterPage /> : <Navigate to="/dashboard" replace />
+        }
+      />
 
-        <Route
-          path="/register"
-          element={
-            !isLoggedIn ? (
-              <RegisterPage />
-            ) : (
-              <Navigate to="/dashboard" replace />
-            )
-          }
-        />
+      {isLoggedIn ? (
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/upload" element={<BankStatementUpload />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            isLoggedIn ? <DashboardPage /> : <Navigate to="/login" replace />
-          }
-        />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/settings" element={<DashboardPage />} />
 
-        <Route
-          path="/transactions"
-          element={
-            isLoggedIn ? <TransactionsPage /> : <Navigate to="/login" replace />
-          }
-        />
-
-        <Route
-          path="/upload"
-          element={
-            isLoggedIn ? (
-              <BankStatementUpload />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-
-        <Route
-          path="*"
-          element={
-            <Navigate to={isLoggedIn ? "/dashboard" : "/login"} replace />
-          }
-        />
-      </Routes>
-    </>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Route>
+      ) : (
+        <>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </>
+      )}
+    </Routes>
   );
 }
 

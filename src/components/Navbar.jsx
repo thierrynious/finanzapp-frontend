@@ -12,36 +12,69 @@ export default function Navbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
+
     navigate("/login");
   }
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <NavLink to="/transactions" className="navbar-item">
-          Transaktionen
+        <NavLink to="/dashboard" className="navbar-logo">
+          💰 FinanzApp
         </NavLink>
 
-        <NavLink to="/categories" className="navbar-item">
-          Kategorien
-        </NavLink>
+        <div className="navbar-links">
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            Dashboard
+          </NavLink>
 
-        <NavLink to="/upload" className="navbar-item">
-          Kontoauszug Upload
-        </NavLink>
+          <NavLink
+            to="/transactions"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            Transaktionen
+          </NavLink>
 
-        <NavLink to="/settings" className="navbar-item">
-          Einstellungen
-        </NavLink>
+          <NavLink
+            to="/categories"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            Kategorien
+          </NavLink>
+
+          <NavLink
+            to="/upload"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            Upload
+          </NavLink>
+
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            Einstellungen
+          </NavLink>
+        </div>
       </div>
 
       <div className="navbar-right">
-        <NavLink to="/dashboard" className="navbar-title">
-          Dashboard
-        </NavLink>
-
         <div className="navbar-user-box">
           <span className="navbar-user-name">👤 {username || "User"}</span>
+
           <span className="navbar-user-email">{email || ""}</span>
         </div>
 
