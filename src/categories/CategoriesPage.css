@@ -95,14 +95,33 @@
   color: #991b1b;
 }
 
+.category-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.category-edit-btn,
 .category-delete-btn {
-  background: #fee2e2;
-  color: #dc2626;
   border: none;
   border-radius: 10px;
   padding: 9px 14px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.category-edit-btn {
+  background: #e8f1ff;
+  color: #1d4ed8;
+}
+
+.category-edit-btn:hover {
+  background: #dbeafe;
+}
+
+.category-delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .category-delete-btn:hover {
@@ -112,6 +131,115 @@
 .category-error {
   color: #dc2626;
   font-weight: 600;
+}
+
+.category-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 16px;
+}
+
+.category-modal {
+  width: 420px;
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+}
+
+.category-modal h2 {
+  margin: 0 0 16px;
+  color: #111827;
+}
+
+.category-modal input,
+.category-modal select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box;
+}
+
+.category-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.category-modal-actions button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.category-modal-actions button:first-child {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.category-modal-actions button:last-child {
+  background: #111827;
+  color: #ffffff;
+}
+.category-food {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.category-cash {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.category-finance {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.category-insurance {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.category-phone {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+.category-transfer {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.category-entertainment {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.category-everyday {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.category-rent {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.category-shopping {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
 @media (max-width: 900px) {
@@ -132,5 +260,10 @@
 
   .category-form input {
     min-width: 0;
+  }
+
+  .category-actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

@@ -6,6 +6,12 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [type, setType] = useState("AUSGABE");
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editType, setEditType] = useState("AUSGABE");
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -54,6 +60,45 @@ export default function CategoriesPage() {
     }
   }
 
+  function openEditModal(category) {
+    setSelectedCategory(category);
+    setEditName(category.name || "");
+    setEditType(category.type || "AUSGABE");
+    setEditOpen(true);
+  }
+
+  function closeEditModal() {
+    setEditOpen(false);
+    setSelectedCategory(null);
+    setEditName("");
+    setEditType("AUSGABE");
+  }
+
+  async function updateCategory(e) {
+    e.preventDefault();
+
+    if (!editName.trim()) {
+      alert("Bitte Kategoriename eingeben.");
+      return;
+    }
+
+    try {
+      await api.put(`/categories/${selectedCategory.id}`, {
+        name: editName.trim(),
+        type: editType,
+      });
+
+      closeEditModal();
+      await loadCategories();
+    } catch (err) {
+      console.error("Fehler beim Aktualisieren der Kategorie:", err);
+      alert(
+        err.response?.data?.message ||
+          "Kategorie konnte nicht aktualisiert werden.",
+      );
+    }
+  }
+
   async function deleteCategory(id) {
     if (!window.confirm("Kategorie wirklich löschen?")) return;
 
@@ -67,6 +112,34 @@ export default function CategoriesPage() {
           "Kategorie konnte nicht gelöscht werden.",
       );
     }
+  }
+  function getCategoryClass(categoryName, categoryType) {
+    if (categoryType === "EINNAHME") {
+      return "category-income";
+    }
+
+    const normalizedName = (categoryName || "").toLowerCase();
+
+    if (normalizedName.includes("lebensmittel")) return "category-food";
+    if (normalizedName.includes("bargeld")) return "category-cash";
+    if (normalizedName.includes("finanzen")) return "category-finance";
+    if (normalizedName.includes("versicherung")) return "category-insurance";
+    if (
+      normalizedName.includes("telefon") ||
+      normalizedName.includes("internet")
+    )
+      return "category-phone";
+    if (normalizedName.includes("transfers")) return "category-transfer";
+    if (
+      normalizedName.includes("abos") ||
+      normalizedName.includes("unterhaltung")
+    )
+      return "category-entertainment";
+    if (normalizedName.includes("alltag")) return "category-everyday";
+    if (normalizedName.includes("miete")) return "category-rent";
+    if (normalizedName.includes("shopping")) return "category-shopping";
+
+    return "category-expense";
   }
 
   return (
@@ -117,11 +190,7 @@ export default function CategoriesPage() {
                 <tr key={category.id}>
                   <td>
                     <span
-                      className={`category-badge ${
-                        category.type === "EINNAHME"
-                          ? "category-income"
-                          : "category-expense"
-                      }`}
+                      className={`category-badge ${getCategoryClass(category.name, category.type)}`}
                     >
                       {category.name}
                     </span>
@@ -132,17 +201,60 @@ export default function CategoriesPage() {
                   </td>
 
                   <td>
-                    <button
-                      className="category-delete-btn"
-                      onClick={() => deleteCategory(category.id)}
-                    >
-                      Löschen
-                    </button>
+                    <div className="category-actions">
+                      <button
+                        className="category-edit-btn"
+                        onClick={() => openEditModal(category)}
+                      >
+                        Bearbeiten
+                      </button>
+
+                      <button
+                        className="category-delete-btn"
+                        onClick={() => deleteCategory(category.id)}
+                      >
+                        Löschen
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {editOpen && selectedCategory && (
+        <div className="category-modal-overlay" onClick={closeEditModal}>
+          <form
+            className="category-modal"
+            onSubmit={updateCategory}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Kategorie bearbeiten</h2>
+
+            <input
+              type="text"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              placeholder="Kategoriename"
+            />
+
+            <select
+              value={editType}
+              onChange={(e) => setEditType(e.target.value)}
+            >
+              <option value="AUSGABE">Ausgabe</option>
+              <option value="EINNAHME">Einnahme</option>
+            </select>
+
+            <div className="category-modal-actions">
+              <button type="button" onClick={closeEditModal}>
+                Abbrechen
+              </button>
+              <button type="submit">Speichern</button>
+            </div>
+          </form>
         </div>
       )}
     </div>
