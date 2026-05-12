@@ -153,6 +153,41 @@ export default function TransactionsPage() {
     setPage(0);
   }
 
+  function getCategoryClass(categoryName, incomeValue) {
+    if (incomeValue) {
+      return "category-income";
+    }
+
+    const normalizedName = (categoryName || "").toLowerCase();
+
+    if (normalizedName.includes("lebensmittel")) return "category-food";
+    if (normalizedName.includes("bargeld")) return "category-cash";
+    if (normalizedName.includes("finanzen")) return "category-finance";
+    if (normalizedName.includes("versicherung")) return "category-insurance";
+
+    if (
+      normalizedName.includes("telefon") ||
+      normalizedName.includes("internet")
+    ) {
+      return "category-phone";
+    }
+
+    if (normalizedName.includes("transfers")) return "category-transfer";
+
+    if (
+      normalizedName.includes("abos") ||
+      normalizedName.includes("unterhaltung")
+    ) {
+      return "category-entertainment";
+    }
+
+    if (normalizedName.includes("alltag")) return "category-everyday";
+    if (normalizedName.includes("miete")) return "category-rent";
+    if (normalizedName.includes("shopping")) return "category-shopping";
+
+    return "category-expense";
+  }
+
   return (
     <div className="transactions-container">
       <div className="transactions-header">
@@ -238,9 +273,7 @@ export default function TransactionsPage() {
 
                   <td>
                     <span
-                      className={`category-badge ${
-                        tx.income ? "category-income" : "category-expense"
-                      }`}
+                      className={`category-badge ${getCategoryClass(tx.category, tx.income)}`}
                     >
                       {tx.category || "Sonstiges"}
                     </span>

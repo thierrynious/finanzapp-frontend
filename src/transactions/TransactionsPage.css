@@ -172,23 +172,71 @@ body {
 
 .category-badge {
   display: inline-block;
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 999px;
-  background: #f3f4f6;
-  color: #374151;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .category-income {
   background: #dcfce7;
+  color: #15803d;
+}
+
+.category-food {
+  background: #bbf7d0;
   color: #166534;
+}
+
+.category-cash {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.category-finance {
+  background: #ddd6fe;
+  color: #6d28d9;
+}
+
+.category-insurance {
+  background: #fed7aa;
+  color: #c2410c;
+}
+
+.category-phone {
+  background: #99f6e4;
+  color: #115e59;
+}
+
+.category-transfer {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.category-entertainment {
+  background: #fbcfe8;
+  color: #be185d;
+}
+
+.category-everyday {
+  background: #d1d5db;
+  color: #374151;
+}
+
+.category-rent {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.category-shopping {
+  background: #c7d2fe;
+  color: #3730a3;
 }
 
 .category-expense {
   background: #fee2e2;
-  color: #991b1b;
+  color: #b91c1c;
 }
 
 .income {
