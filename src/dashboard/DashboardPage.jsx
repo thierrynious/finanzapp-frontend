@@ -37,6 +37,11 @@ export default function DashboardPage() {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
+  const totalCategoryExpenses = categoryData.reduce(
+    (sum, item) => sum + item.value,
+    0,
+  );
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -109,29 +114,69 @@ export default function DashboardPage() {
             {categoryData.length === 0 ? (
               <p>Keine Kategorie-Daten vorhanden.</p>
             ) : (
-              <ResponsiveContainer width="100%" height={360}>
-                <PieChart>
-                  <Pie
-                    data={categoryData}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={65}
-                    outerRadius={115}
-                    paddingAngle={2}
-                    label={false}
-                  >
-                    {categoryData.map((entry, index) => (
-                      <Cell
-                        key={entry.name}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
+              <div className="category-dashboard-grid">
+                <div className="category-chart-wrapper">
+                  <ResponsiveContainer width="100%" height={320}>
+                    <PieChart>
+                      <Pie
+                        data={categoryData}
+                        dataKey="value"
+                        nameKey="name"
+                        innerRadius={65}
+                        outerRadius={115}
+                        paddingAngle={2}
+                        label={false}
+                      >
+                        {categoryData.map((entry, index) => (
+                          <Cell
+                            key={entry.name}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
 
-                  <Tooltip formatter={(value) => formatAmount(value)} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+                      <Tooltip formatter={(value) => formatAmount(value)} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div className="category-summary-list">
+                  <h4>Top-Kategorien</h4>
+
+                  {categoryData.map((category, index) => {
+                    const percent =
+                      totalCategoryExpenses > 0
+                        ? (category.value / totalCategoryExpenses) * 100
+                        : 0;
+
+                    return (
+                      <div
+                        className="category-summary-item"
+                        key={category.name}
+                      >
+                        <div className="category-summary-left">
+                          <span
+                            className="category-color-dot"
+                            style={{
+                              backgroundColor: COLORS[index % COLORS.length],
+                            }}
+                          />
+
+                          <div>
+                            <strong>{category.name}</strong>
+                            <span>{percent.toFixed(1)} % der Ausgaben</span>
+                          </div>
+                        </div>
+
+                        <strong className="category-summary-amount">
+                          {formatAmount(category.value)}
+                        </strong>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             )}
           </div>
 
