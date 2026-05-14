@@ -16,6 +16,9 @@ export default function DashboardPage() {
     balance: 0,
     totalIncome: 0,
     totalExpenses: 0,
+    transactionCount: 0,
+    biggestExpense: 0,
+    biggestIncome: 0,
     categoryStats: {},
     latestTransactions: [],
   });
@@ -32,6 +35,8 @@ export default function DashboardPage() {
     "#06b6d4",
     "#84cc16",
   ];
+
+  const [filter, setFilter] = useState("ALL");
 
   const categoryData = Object.entries(dashboard.categoryStats || {})
     .map(([name, value]) => ({ name, value }))
@@ -51,19 +56,40 @@ export default function DashboardPage() {
     }
 
     loadDashboard();
-  }, []);
+  }, [filter]);
 
   async function loadDashboard() {
     setLoading(true);
     setError("");
 
     try {
-      const res = await api.get("/transactions/dashboard");
+      const now = new Date();
+      const params = {};
+
+      if (filter === "CURRENT_MONTH") {
+        params.month = now.getMonth() + 1;
+        params.year = now.getFullYear();
+      }
+
+      if (filter === "LAST_MONTH") {
+        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        params.month = lastMonth.getMonth() + 1;
+        params.year = lastMonth.getFullYear();
+      }
+
+      if (filter === "CURRENT_YEAR") {
+        params.year = now.getFullYear();
+      }
+
+      const res = await api.get("/transactions/dashboard", { params });
 
       setDashboard({
         balance: res.data?.balance ?? 0,
         totalIncome: res.data?.totalIncome ?? 0,
         totalExpenses: res.data?.totalExpenses ?? 0,
+        transactionCount: res.data?.transactionCount ?? 0,
+        biggestExpense: res.data?.biggestExpense ?? 0,
+        biggestIncome: res.data?.biggestIncome ?? 0,
         categoryStats: res.data?.categoryStats ?? {},
         latestTransactions: res.data?.latestTransactions ?? [],
       });
@@ -84,6 +110,17 @@ export default function DashboardPage() {
           <h1>Dashboard</h1>
           <p>Hier siehst du deine wichtigsten Finanzdaten auf einen Blick.</p>
         </div>
+
+        <select
+          className="dashboard-filter"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="ALL">Alle Daten</option>
+          <option value="CURRENT_MONTH">Dieser Monat</option>
+          <option value="LAST_MONTH">Letzter Monat</option>
+          <option value="CURRENT_YEAR">Dieses Jahr</option>
+        </select>
       </div>
 
       {loading && <p>Lade Dashboard...</p>}
@@ -105,6 +142,26 @@ export default function DashboardPage() {
             <div className="dashboard-card expense-card">
               <h3>Gesamtausgaben</h3>
               <p>{formatAmount(dashboard.totalExpenses)}</p>
+            </div>
+            <div className="quick-stats">
+              <div className="quick-stat-card">
+                <h4>Transaktionen</h4>
+                <p>{dashboard.transactionCount}</p>
+              </div>
+
+              <div className="quick-stat-card">
+                <h4>Größte Einnahme</h4>
+                <p className="income-text">
+                  {formatAmount(dashboard.biggestIncome)}
+                </p>
+              </div>
+
+              <div className="quick-stat-card">
+                <h4>Größte Ausgabe</h4>
+                <p className="expense-text">
+                  {formatAmount(dashboard.biggestExpense)}
+                </p>
+              </div>
             </div>
           </div>
 
