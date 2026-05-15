@@ -6,6 +6,7 @@ import DashboardPage from "./dashboard/DashboardPage";
 import TransactionsPage from "./transactions/TransactionsPage";
 import BankStatementUpload from "./bank/BankStatementUpload";
 import AppLayout from "./layout/AppLayout";
+import SettingsPage from "./settings/SettingsPage";
 
 function App() {
   const isLoggedIn = Boolean(localStorage.getItem("token"));
@@ -33,7 +34,7 @@ function App() {
           <Route path="/upload" element={<BankStatementUpload />} />
 
           <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/settings" element={<DashboardPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
 
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

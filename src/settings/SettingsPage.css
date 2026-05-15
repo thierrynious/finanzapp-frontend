@@ -1,0 +1,134 @@
+.settings-container {
+  max-width: 1400px;
+  margin: 32px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+.settings-header {
+  margin-bottom: 28px;
+}
+
+.settings-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.settings-header p {
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.settings-card {
+  padding: 24px;
+  border: 1px solid #eef2f7;
+  border-radius: 18px;
+  background: #f9fafb;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+}
+
+.settings-card h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #111827;
+}
+
+.settings-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.settings-info-row:last-child {
+  border-bottom: none;
+}
+
+.settings-info-row span {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.settings-info-row strong {
+  color: #111827;
+  text-align: right;
+}
+
+.settings-card label {
+  display: block;
+  margin-bottom: 18px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.settings-card select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.settings-card select:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.settings-card button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #111827;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.settings-card button:hover:not(:disabled) {
+  background: #1f2937;
+}
+
+.settings-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.danger-card p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+@media (max-width: 1000px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .settings-container {
+    margin: 16px;
+    padding: 24px;
+  }
+
+  .settings-info-row {
+    flex-direction: column;
+  }
+
+  .settings-info-row strong {
+    text-align: left;
+  }
+}
